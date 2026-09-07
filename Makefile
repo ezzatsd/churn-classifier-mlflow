@@ -3,7 +3,7 @@ PIP := .venv/bin/pip
 MLFLOW := .venv/bin/mlflow
 EXP ?= churn-exp
 
-.PHONY: init data train evaluate predict test lint mlflow-ui clean
+.PHONY: init data train evaluate predict test lint audit mlflow-ui clean
 
 init:
 	python3 -m venv .venv
@@ -27,6 +27,9 @@ test:
 
 lint:
 	$(PYTHON) -m ruff check src tests
+
+audit:
+	$(PYTHON) -m pip_audit --progress-spinner off
 
 mlflow-ui:
 	$(MLFLOW) ui --backend-store-uri sqlite:///mlflow.db --host 127.0.0.1 --port 5000

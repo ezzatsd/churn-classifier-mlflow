@@ -15,6 +15,7 @@ Projet MLOps reproductible de classification du churn client sur le jeu de donn�
 - Évaluation de holdout: ROC, précision-rappel, matrice de confusion et prédictions ligne à ligne.
 - CLI, YAML, Makefile, tests, lint, Docker et CI GitHub Actions.
 - Reproductibilité: split stratifié et graines aléatoires fixes.
+- Sécurité: audit de dépendances, checksum du dataset, conteneur non-root et actions épinglées.
 
 ## Architecture
 
@@ -43,6 +44,7 @@ make init
 make data
 make test
 make lint
+make audit
 make train
 make evaluate
 make mlflow-ui
@@ -96,7 +98,7 @@ Qualité vérifiée localement: **8 tests réussis** et **0 erreur Ruff**.
 
 ## Donnees et ethique
 
-Source: [IBM Telco Customer Churn](https://github.com/IBM/telco-customer-churn-on-icp4d). Les données ne sont pas versionnées dans Git; `make data` télécharge 7 043 lignes depuis le dépôt IBM et vérifie le nombre de lignes. Le SHA-256 de l'exécution validée est `16320c9c...e3055e91`. Le modèle aide à prioriser une analyse de rétention: il ne doit pas déclencher seul une décision affectant un client. Il faut surveiller dérive, calibration et écarts de performance entre sous-groupes avant toute mise en production. Voir la [model card](docs/model_card.md).
+Source: [IBM Telco Customer Churn](https://github.com/IBM/telco-customer-churn-on-icp4d). Les données ne sont pas versionnées dans Git; `make data` télécharge 7 043 lignes depuis le dépôt IBM et exige le SHA-256 attendu. Le modèle aide à prioriser une analyse de rétention: il ne doit pas déclencher seul une décision affectant un client. Il faut surveiller dérive, calibration et écarts de performance entre sous-groupes avant toute mise en production. Voir la [model card](docs/model_card.md) et la [politique de sécurité](SECURITY.md).
 
 ## Licence
 
