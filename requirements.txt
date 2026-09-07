@@ -1,0 +1,10 @@
+pandas>=2.2,<3
+scikit-learn>=1.4,<1.8
+mlflow>=2.12,<4
+# Keep an Intel macOS wheel available; newer cryptography releases may require Rust.
+cryptography>=43,<45
+matplotlib>=3.8,<4
+PyYAML>=6,<7
+joblib>=1.3,<2
+pytest>=8,<9
+ruff>=0.6,<1

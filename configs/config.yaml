@@ -1,0 +1,57 @@
+data:
+  csv_path: data/raw.csv
+  source_url: https://github.com/IBM/telco-customer-churn-on-icp4d
+  target: Churn
+  positive_label: "Yes"
+  test_size: 0.20
+  random_state: 42
+
+features:
+  numeric:
+    - tenure
+    - MonthlyCharges
+    - TotalCharges
+  categorical:
+    - gender
+    - SeniorCitizen
+    - Partner
+    - Dependents
+    - PhoneService
+    - MultipleLines
+    - InternetService
+    - OnlineSecurity
+    - OnlineBackup
+    - DeviceProtection
+    - TechSupport
+    - StreamingTV
+    - StreamingMovies
+    - Contract
+    - PaperlessBilling
+    - PaymentMethod
+
+model:
+  type: logreg
+  params:
+    C: [0.1, 1.0, 10.0]
+    penalty: [l2]
+    solver: [lbfgs, liblinear]
+    class_weight: [null, balanced]
+
+cv:
+  strategy: StratifiedKFold
+  n_splits: 5
+  scoring: roc_auc
+  # Deterministic and friendly to constrained CI/teaching environments.
+  n_jobs: 1
+
+mlflow:
+  tracking_uri: sqlite:///mlflow.db
+  experiment_name: churn-exp
+  run_name: tuned-logistic-regression
+  registered_model_name: ChurnClassifier
+  register_model: true
+  max_tuning_runs: 20
+
+outputs:
+  model_path: artifacts/best_model.joblib
+  evaluation_dir: artifacts/evaluation
